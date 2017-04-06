@@ -15,6 +15,9 @@ public class Dvd {
     @Column(name = "dvd_Name")
     private String dvdName;
 
+    @Column(name = "given")
+    private Integer given;
+
     @ManyToOne
     @JoinColumn(name = "dvd_owner")
     private User user1;
@@ -44,6 +47,14 @@ public class Dvd {
 
     public void setDvdName(String dvdName) {
         this.dvdName = dvdName;
+    }
+
+    public Integer getGiven() {
+        return given;
+    }
+
+    public void setGiven(Integer given) {
+        this.given = given;
     }
 
     public User getUser1() {

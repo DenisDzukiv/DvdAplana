@@ -1,7 +1,12 @@
 
 package denis.service;
 
+import denis.model.Dvd;
+import java.util.List;
+
+import org.hibernate.Query;
 import org.springframework.beans.factory.annotation.Autowired;
+
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 import denis.dao.DvdDao;
@@ -39,8 +44,9 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public User findByUsername(String username) {
-
         return userDao.findByUsername(username);
     }
+
+
 }
 

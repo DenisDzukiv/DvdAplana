@@ -25,10 +25,12 @@
             <input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}"/>
         </form>
         <h4 class="text-center"><a href="${contextPath}/diskForm">New Disk</a></h4>
+        <h4 class="text-center"><a href="${contextPath}/listFreeDisk">All free disk</a></h4>
+        <h4 class="text-center"><a href="${contextPath}/diskTakeFromUser">Taken disk from ${pageContext.request.userPrincipal.name} </a></h4>
 
 
-                    <h3><a onclick="">All free disk</a></h3>
-                <h3><a onclick="">List of taken disks by the user</a></h3>
+
+
                     <h3><a onclick="">List of taken disks from the user</a></h3>
 
         <h2>Welcome ${pageContext.request.userPrincipal.name} | <a onclick="document.forms['logoutForm'].submit()">Logout</a> </h2>
@@ -43,7 +45,6 @@
             </thead>
             <tdody>
             <c:forEach var="row" items="${dvdListUserLocation}" varStatus="loop">
-
             <tr>
                 <td>${loop.index+1}</td>
                 <td>${row.getDvdName()}</td>
