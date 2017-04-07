@@ -11,8 +11,8 @@ import java.util.List;
 
 public interface DvdService {
     void save(Dvd dvd, User user);
-    void updateDvd(Long dvdId);
+    void updateDvd(Long dvdId, int given );
     List<Dvd> findBygiven(Integer giv);
-    List<Dvd> findByuser1(User user);
+    List<Dvd> findByuser1(User user, int given);
     //List<String> findBydvdName();
 }

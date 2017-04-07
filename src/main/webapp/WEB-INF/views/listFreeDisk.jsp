@@ -16,6 +16,8 @@
     <title>FreeDisk</title>
 
     <link href="${contextPath}/resources/css/bootstrap.min.css" rel="stylesheet">
+
+
     <script language="JavaScript 1.1" type="text/javascript">
         function getXmlHttp() {
             if (typeof XMLHttpRequest === 'undefined') {
@@ -46,10 +48,10 @@
             return new XMLHttpRequest();
         }
 
-        function PutDisk(diskId) {
+        function takeDisk(diskId) {
             var
                     l_xmlhttp = getXmlHttp(),
-                    l_url = "update?diskId=" + diskId;
+                    l_url = "takeDisk?diskId=" + diskId;
 
             l_xmlhttp.open("GET", l_url, true);
             l_xmlhttp.onreadystatechange = function () {
@@ -78,10 +80,10 @@
             <input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}"/>
         </form>
         <h4 class="text-center"><a href="${contextPath}/diskForm">New Disk</a></h4>
-        <h4 class="text-center"><a href="${contextPath}/welcome">User taken disks</a></h4>
+        <h4 class="text-center"><a href="${contextPath}/diskTakeFromUser">Taken disk from ${pageContext.request.userPrincipal.name} </a></h4>
+        <h4 class="text-center"><a href="${contextPath}/welcome">Disk from the user</a></h4>
 
-        <h3><a onclick="">User taken disks</a></h3>
-        <h3><a onclick="">List of taken disks from the user</a></h3>
+
 
 
         <table class="table table-bordered">
@@ -102,8 +104,8 @@
                         <td>${row.getUser1().getUsername()}</td>
                         <td>
                             <c:if test="${row.getUser1().getUsername() != pageContext.request.userPrincipal.name}">
-                                <button type="submit" class="btn btn-primary btn-sm" onclick="PutDisk(${row.getId()})">
-                                    Put disk
+                                <button type="submit" class="btn btn-primary btn-sm" onclick="takeDisk(${row.getId()})">
+                                    Take disk
                                 </button>
                             </c:if>
                         </td>

@@ -27,6 +27,11 @@
 
 <div class="container">
 
+    <c:if test="${pageContext.request.userPrincipal.name != null}">
+        <h4 class="text-center"><a href="${contextPath}/welcome">Disk from the user</a></h4>
+    <h4 class="text-center"><a href="${contextPath}/listFreeDisk">All free disk</a></h4>
+    <h4 class="text-center"><a href="${contextPath}/diskTakeFromUser">Taken disk from ${pageContext.request.userPrincipal.name} </a></h4>
+
     <form:form method="POST" modelAttribute="diskForm" class="form-signin">
 
         <h2 class="form-signin-heading">Create disk</h2>
@@ -47,7 +52,7 @@
 
         <button class="btn btn-lg btn-primary btn-block" type="submit">Submit</button>
     </form:form>
-
+    </c:if>
 </div>
 <!-- /container -->
 <script src="${contextPath}/resources/js/bootstrap.min.js"></script>

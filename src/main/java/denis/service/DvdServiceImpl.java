@@ -7,6 +7,7 @@ import denis.model.User;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.jpa.repository.Query;
 
+import java.util.ArrayList;
 import java.util.List;
 
 
@@ -24,8 +25,19 @@ public class DvdServiceImpl implements DvdService{
         dvdDao.save(dvd);
     }
 
-    public void updateDvd(Long dvdId) {
-        dvdDao.updateDvd(dvdId);
+    /*public void saveDvdLocation(Dvd dvd, User user){
+        List<User> userList = new ArrayList<>();
+        userList.add(user);
+        dvd.setUserList(userList);
+        dvdDao.save(dvd);
+    }*/
+
+  /*  public void saveLocationDisk(Long userId, Long dvdId){
+        dvdDao.saveLocationDisk(userId, dvdId);
+    }*/
+
+    public void updateDvd(Long dvdId, int given) {
+        dvdDao.updateDvd(dvdId, given);
     }
 
    /* @Override
@@ -41,8 +53,8 @@ public class DvdServiceImpl implements DvdService{
     }
 
     @Override
-    public List<Dvd> findByuser1(User user){
-        List<Dvd> listTakeFromUser = dvdDao.findByuser1(user);
+    public List<Dvd> findByuser1(User user, int given){
+        List<Dvd> listTakeFromUser = dvdDao.findByuser1(user, given);
         return listTakeFromUser;
     }
 }

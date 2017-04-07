@@ -25,6 +25,11 @@ public class Dvd {
     @ManyToMany(mappedBy = "dvds1") //dvds1 - название поля по которому идет связка модель User private Set<Dvd> dvds1;
     private List<User> userList;
 
+
+
+    /*@ManyToMany(mappedBy = "dvds1") //dvds1 - название поля по которому идет связка модель User private Set<Dvd> dvds1;
+    private List<User> userList;*/
+
     //второй вариант связки многие ко многим
     /*@ManyToMany
     @JoinTable(name="location_disk", joinColumns = @JoinColumn(name="dvd_id"),
@@ -69,7 +74,7 @@ public class Dvd {
         return userList;
     }
 
-    public void getUserList(List<User> userList) {
+    public void setUserList(List<User> userList) {
         this.userList = userList;
     }
 }

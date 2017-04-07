@@ -5,11 +5,13 @@ import denis.dao.DvdDao;
 import denis.dao.UserDao;
 import denis.dao.RoleDao;
 
+import denis.dao.UserTakeDvdDao;
 import denis.model.Dvd;
 import denis.model.User;
 import denis.service.DvdService;
 import denis.service.SecurityService;
 import denis.service.UserService;
+import denis.service.UserTakeDvdService;
 import org.hibernate.HibernateException;
 
 import org.hibernate.cfg.Configuration;
@@ -36,6 +38,9 @@ public class UserController {
     private DvdService dvdService;
 
     @Autowired
+    private UserTakeDvdService userTakeDvdService;
+
+    @Autowired
     private SecurityService securityService;
 
     @Autowired
@@ -43,13 +48,12 @@ public class UserController {
 
     @Autowired
     private DvdDao dvdDao;
+    @Autowired
+    private UserTakeDvdDao userTakeDvdDao;
 
     @Autowired
     private RoleDao roleDao;
 
-   /* @Autowired
-    private QueryDao queryDao;
-*/
     @RequestMapping(value = "/registration", method = RequestMethod.GET)
     public String registration(Model model) {
         model.addAttribute("userForm", new User());
@@ -82,11 +86,6 @@ public class UserController {
 
         Authentication auth = SecurityContextHolder.getContext().getAuthentication();
         User user = userDao.findByUsername(auth.getName());
-        /*List<Dvd> dvdList = new ArrayList<>();
-        for (Dvd dvd : user.getDvds()) {
-            dvdList.add(dvd);
-            System.out.println(dvd.getDvdName());
-        }*/
 
         List<Dvd> dvdListUserLocation = new ArrayList<>();
         for (Dvd dvdLocation : user.getDvds1()) {
@@ -127,37 +126,31 @@ public class UserController {
         model.addAttribute("dvdFree", dvdFree);
         return "listFreeDisk";
     }
-    @RequestMapping(value = {"/update"}, method = RequestMethod.GET)
-    public String listFreeDisk(@RequestParam Long diskId) {
-        dvdService.updateDvd(diskId);
+    @RequestMapping(value = {"/takeDisk"}, method = RequestMethod.GET)
+    public String takeDisk(@RequestParam Long diskId) {
+        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+        User user = userDao.findByUsername(auth.getName());
+        dvdService.updateDvd(diskId, 1);
+        userTakeDvdService.save(user.getId(), diskId);
+        return "listFreeDisk";
+    }
+
+    //Отдать диск владельцу
+    @RequestMapping(value = {"/backDisk"}, method = RequestMethod.GET)
+    public String giveBackDisk(@RequestParam Long diskId) {
+        dvdService.updateDvd(diskId, 0);
+        userTakeDvdService.delete(diskId);
         return "listFreeDisk";
     }
 
 
-    /*@RequestMapping(value = {"/diskTakeFromUser"}, method = RequestMethod.GET)
-    public String listGivFromUser(Model model) {
+    @RequestMapping(value = {"/diskTakeFromUser"}, method = RequestMethod.GET)
+    public String diskTakeFromUser(Model model) {
         Authentication auth = SecurityContextHolder.getContext().getAuthentication();
         User user = userDao.findByUsername(auth.getName());
-        //Диски юзера
-        List<Dvd> dvdListUser = new ArrayList<>();
-        for (Dvd dvd : user.getDvds()) {
-            dvdListUser.add(dvd);
-            System.out.println(dvd.getDvdName());
-        }
-        //Диски отданные
-        List<Dvd> dvdTake = dvdDao.findBygiven(1);
-        List<Dvd> dvdTakeFromUser = new ArrayList<>();
-        for(Dvd dvd : dvdListUser){
-            for (Dvd dvd1 : dvdTake){
-                if(dvd.getId() == dvd1.getId()){
-                    dvdTakeFromUser.add(dvd);
-                }
-            }
-        }
-
-        //System.out.println(dvdTake.size());
-        //model.addAttribute("dvdTakeFromUser", dvdTakeFromUser);
-
-        return "listFreeDisk";
-    }*/
+        int given = 1; //диск взять
+        List<Dvd> dvds = dvdService.findByuser1(user, given);
+        model.addAttribute("dvdTakeFromUser", dvds);
+        return "diskTakeFromUser";
+    }
 }

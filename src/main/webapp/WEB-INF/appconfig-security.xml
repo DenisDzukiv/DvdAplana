@@ -36,6 +36,9 @@
     <beans:bean id="dvdServiceImpl"
                 class="denis.service.DvdServiceImpl">
     </beans:bean>
+    <beans:bean id="userTakeDvdService"
+                class="denis.service.UserTakeDvdServiceImpl">
+    </beans:bean>
     <!--Новое -->
 
     <beans:bean id="encoder"
