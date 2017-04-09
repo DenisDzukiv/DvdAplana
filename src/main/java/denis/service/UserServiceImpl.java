@@ -47,6 +47,9 @@ public class UserServiceImpl implements UserService {
         return userDao.findByUsername(username);
     }
 
+    @Override
+    public User findBydvds1(Dvd dvd) {return  userDao.findBydvds1(dvd);}
+
 
 }
 

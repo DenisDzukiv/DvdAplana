@@ -6,6 +6,7 @@ import denis.dao.UserDao;
 import denis.dao.RoleDao;
 
 import denis.dao.UserTakeDvdDao;
+import denis.model.DiskWrapper;
 import denis.model.Dvd;
 import denis.model.User;
 import denis.service.DvdService;
@@ -72,7 +73,6 @@ public class UserController {
         if (error != null) {
             model.addAttribute("error", "Username or password is incorrect.");
         }
-
         if (logout != null) {
             model.addAttribute("message", "Logged out successfully.");
         }
@@ -92,7 +92,6 @@ public class UserController {
             dvdListUserLocation.add(dvdLocation);
             //System.out.println(dvdLocation.getDvdName());
         }
-
         model.addAttribute("dvdListUserLocation", dvdListUserLocation);
         return "welcome";
     }
@@ -150,7 +149,17 @@ public class UserController {
         User user = userDao.findByUsername(auth.getName());
         int given = 1; //диск взять
         List<Dvd> dvds = dvdService.findByuser1(user, given);
-        model.addAttribute("dvdTakeFromUser", dvds);
+        List<User> userList = new ArrayList<>();
+
+        List<DiskWrapper> diskWrapper = new ArrayList<>();
+        for(Dvd dvd : dvds) {
+            userList.add(userService.findBydvds1(dvd));
+            DiskWrapper diskWrappers = new DiskWrapper();
+            diskWrappers.setUser(userService.findBydvds1(dvd));
+            diskWrappers.setDvd(dvd);
+            diskWrapper.add(diskWrappers);
+        }
+        model.addAttribute("diskWrapper", diskWrapper);
         return "diskTakeFromUser";
     }
 }
