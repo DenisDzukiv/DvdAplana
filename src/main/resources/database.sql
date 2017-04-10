@@ -1,4 +1,4 @@
-CREATE SCHEMA `dvd_aplana` ;
+CREATE SCHEMA `aplana_dvd` ;
 -- Table: users
 CREATE TABLE users (
   id       INT          NOT NULL AUTO_INCREMENT PRIMARY KEY,
